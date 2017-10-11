@@ -9,9 +9,9 @@ export default {
   data () {
     return {
       msg: 'MAIN SLIDE'
-    }
+    };
   }
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

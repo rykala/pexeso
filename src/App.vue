@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import MainSlide from './components/MainSlide'
-import Settings from './components/Settings'
+import MainSlide from './components/MainSlide';
+import Settings from './components/Settings';
 
 export default {
   name: 'app',
@@ -17,15 +17,15 @@ export default {
   data () {
     return {
       slideIndex: 0
-    }
+    };
   },
 
   methods: {
     changeSlide (index) {
-      this.slideIndex = index
+      this.slideIndex = index;
     }
   }
-}
+};
 </script>
 
 <style>
