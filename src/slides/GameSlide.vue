@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>SETTINGS SLIDE</h1>
+        <h1>GAME SLIDE</h1>
         <button @click="changeSlideEvent(SlidesEnum.MAIN)">Back to main slide</button>
     </div>
 </template>

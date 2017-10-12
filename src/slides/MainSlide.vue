@@ -1,7 +1,8 @@
 <template>
-    <div class="hello">
-        <h1>MAIN</h1>
-        <button @click="changeSlideEvent(SlidesEnum.SETTINGS)">Back to main slide</button>
+    <div>
+        <h1>MAIN SLIDE</h1>
+        <button @click="changeSlideEvent(SlidesEnum.GAME)">START GAME</button>
+        <button @click="changeSlideEvent(SlidesEnum.SETTINGS)">SETTINGS</button>
     </div>
 </template>
 
@@ -15,7 +16,5 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>

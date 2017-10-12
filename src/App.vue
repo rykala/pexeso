@@ -1,21 +1,23 @@
 <template>
     <div id="app">
         <main-slide @changeSlideEvent="changeSlide" v-if="slideView === SlidesEnum.MAIN"/>
-        <settings @changeSlideEvent="changeSlide" v-if="slideView === SlidesEnum.SETTINGS"/>
+        <settings-slide @changeSlideEvent="changeSlide" v-if="slideView === SlidesEnum.SETTINGS"/>
+        <game-slide @changeSlideEvent="changeSlide" v-if="slideView === SlidesEnum.GAME"/>
     </div>
 </template>
 
 <script>
 // components
 import MainSlide from './slides/MainSlide';
-import Settings from './slides/SettingsSlide';
+import SettingsSlide from './slides/SettingsSlide';
+import GameSlide from './slides/GameSlide';
 
 // mixins
 import SlidesEnumMixin from './mixins/SlidesEnumMixin.js';
 
 export default {
     name: 'app',
-    components: {MainSlide, Settings},
+    components: {MainSlide, SettingsSlide, GameSlide},
     mixins: [SlidesEnumMixin],
 
     data () {
