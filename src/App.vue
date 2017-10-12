@@ -1,40 +1,36 @@
 <template>
-  <div id="app">
-    <main-slide v-if="slideIndex == 0"/>
-    <settings v-if="slideIndex == 1"/>
-    <button v-on:click="changeSlide(0)">Main</button>
-    <button v-on:click="changeSlide(1)">Settings</button>
-  </div>
+    <div id="app">
+        <main-slide @changeSlideEvent="changeSlide" v-if="slideView === SlidesEnum.MAIN"/>
+        <settings @changeSlideEvent="changeSlide" v-if="slideView === SlidesEnum.SETTINGS"/>
+    </div>
 </template>
 
 <script>
-import MainSlide from './components/MainSlide';
-import Settings from './components/Settings';
+// components
+import MainSlide from './slides/MainSlide';
+import Settings from './slides/SettingsSlide';
+
+// mixins
+import SlidesEnumMixin from './mixins/SlidesEnumMixin.js';
 
 export default {
-  name: 'app',
-  components: {MainSlide, Settings},
-  data () {
-    return {
-      slideIndex: 0
-    };
-  },
+    name: 'app',
+    components: {MainSlide, Settings},
+    mixins: [SlidesEnumMixin],
 
-  methods: {
-    changeSlide (index) {
-      this.slideIndex = index;
+    data () {
+        return {
+            slideView: this.SlidesEnum.MAIN
+        };
+    },
+
+    methods: {
+        changeSlide (slideIndex) {
+            this.slideView = slideIndex;
+        }
     }
-  }
 };
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>

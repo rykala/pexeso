@@ -17,6 +17,7 @@ module.exports = {
   ],
   // add your custom rules here
   'rules': {
+    "indent": ["error", 4],
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow async-await
@@ -24,10 +25,6 @@ module.exports = {
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     // semicolon
-    "semi": ["error", "always"],
-    // require let or const instead of var
-    "no-var": ["error", "always"].
-
-    
+    "semi": ["error", "always"]
   }
 }
