@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>GAME SLIDE</h1>
-        <button @click="changeSlideEvent(SlidesEnum.MAIN)">Back to main slide</button>
+        <button @click="changeSlideEvent(SlidesEnum.MAIN)">Vzdat hru</button>
     </div>
 </template>
 
@@ -16,4 +16,15 @@ export default {
 </script>
 
 <style scoped>
+    .gameSlide {
+        height: 100%;
+        widht: 100%;
+        position: relative;
+    }
+
+    .gameSlide__main-header {
+        position: absolute;
+        right: 50%;
+        top: 50%;
+    }
 </style>
