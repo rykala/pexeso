@@ -45,8 +45,8 @@
             name: 'webpack',
             image: 'https://camo.githubusercontent.com/66747a6e05a799aec9c6e04a3e721ca567748e8b/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f313336353838312f313931383337332f32653035373166612d376462632d313165332d383436352d3839356632393164343366652e706e67'
         },
-        {name: 'babel', image: 'https://babeljs.io/images/logo.svg'}
-        // { name: "jade", image: "http://jade-lang.com/style/jade-logo-header.svg" },
+        {name: 'babel', image: 'https://babeljs.io/images/logo.svg'},
+        {name: 'jade', image: 'http://jade-lang.com/style/jade-logo-header.svg'}
     ];
 
     let shuffleCards = () => {
@@ -185,19 +185,7 @@
     };
 </script>
 
-<style scoped>
-    .gameSlide {
-        height: 100%;
-        widht: 100%;
-        position: relative;
-    }
-
-    .gameSlide__main-header {
-        position: absolute;
-        right: 50%;
-        top: 50%;
-    }
-
+<style scoped lang="scss">
     .info {
         text-align: center;
         padding-bottom: 1em;
@@ -217,56 +205,62 @@
         font-weight: bold;
     }
 
-    .cards .card {
-        position: relative;
-        display: inline-block;
-        width: 10rem;
-        height: 10rem;
-        margin: 1em 2em;
-        transition: opacity 0.5s;
-    }
+    .cards {
+        .card {
+            position: relative;
+            display: inline-block;
+            width: 10rem;
+            height: 10rem;
+            margin: 1em 2em;
+            transition: opacity 0.5s;
 
-    .cards .card .front, .cards .card .back {
-        border-radius: 5px;
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-        background-color: White;
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        transition: transform 0.6s;
-        transform-style: preserve-3d;
-    }
+            .front, .back {
+                border-radius: 5px;
+                position: absolute;
+                left: 0;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                width: 100%;
+                height: 100%;
+                background-color: White;
+                backface-visibility: hidden;
+                transform: translateZ(0);
+                transition: transform 0.6s;
+                transform-style: preserve-3d;
+            }
 
-    .cards .card .back {
-        background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/102308/card_backside.jpg");
-        background-size: 90%;
-        background-position: center;
-        background-repeat: no-repeat;
-        font-size: 12px;
-    }
+            .back {
+                background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/102308/card_backside.jpg");
+                background-size: 90%;
+                background-position: center;
+                background-repeat: no-repeat;
+                font-size: 12px;
 
-    .cards .card .front {
-        transform: rotateY(-180deg);
-        background-size: 90%;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
+                &:hover {
+                    cursor: pointer;
+                }
+            }
 
-    .cards .card.flipped .back, .cards .card.found .back {
-        transform: rotateY(180deg);
-    }
+            .front {
+                transform: rotateY(-180deg);
+                background-size: 90%;
+                background-repeat: no-repeat;
+                background-position: center;
+            }
 
-    .cards .card.flipped .front, .cards .card.found .front {
-        transform: rotateY(0deg);
-    }
+            &.flipped .back, &.found .back {
+                transform: rotateY(180deg);
+            }
 
-    .cards .card.found {
-        opacity: 0.3;
+            &.flipped .front, &.found .front {
+                transform: rotateY(0deg);
+            }
+
+            &.found {
+                opacity: 0.3;
+            }
+        }
     }
 
     .splash {

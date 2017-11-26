@@ -89,7 +89,7 @@
 
         height: 100%;
 
-        background: url('./assets/background.jpg');
+        background: url('assets/background-sky.jpg');
         background-size: cover;
 
         .slide {
