@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>GAME MODE SLIDE</h1>
-        <button @click="changeSlideEvent(SlidesEnum.MAIN)">Zpet do menu</button>
+        <button @click="changeSlideEvent(SlidesEnum.MAIN)" class="button back"></button>
         <button @click="changeSlideEvent(SlidesEnum.GAME)">HRAT</button>
     </div>
 </template>

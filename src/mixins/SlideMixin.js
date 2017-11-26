@@ -1,6 +1,6 @@
 export default {
     methods: {
-        changeSlideEvent (slideIndex) {
+        changeSlideEvent(slideIndex) {
             this.$emit('changeSlideEvent', slideIndex);
         }
     }

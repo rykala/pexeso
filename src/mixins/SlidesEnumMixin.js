@@ -1,7 +1,7 @@
 import SlidesEnum from '../models/Enums.js';
 
 export default {
-    beforeCreate () {
+    beforeCreate() {
         this.SlidesEnum = SlidesEnum;
     }
 };
