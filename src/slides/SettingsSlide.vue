@@ -1,23 +1,37 @@
 <template>
     <div>
         <button @click="changeSlideEvent(SlidesEnum.MAIN)" class="button back"></button>
-        <div class="simple-mode" @click="setSimpleMode(!settings.simpleMode)" :class="{active: settings.simpleMode}">Simple Mode</div>
-        <div class="boxes-wrapper">
-            <div class="box box-background--card">
+
+        <div class="container center">
+            <div class="simple-mode" @click="setSimpleMode(!settings.simpleMode)"
+                 :class="{active: settings.simpleMode}">
+                Simple Mode
             </div>
-            <div class="box box-background--card">
+            <div class="boxes-wrapper">
+                <div class="box set-card-back1" @click="setCardBack(1)" :class="{ active: settings.cardBack === 1 }">
+                </div>
+                <div class="box set-card-back2" @click="setCardBack(2)" :class="{ active: settings.cardBack === 2 }">
+                </div>
+                <div class="box set-card-back3" @click="setCardBack(3)" :class="{ active: settings.cardBack === 3 }">
+                </div>
             </div>
-            <div class="box box-background--card active">
+
+            <div class="boxes-wrapper">
+                <div class="box box-background--sky" @click="setBackground(1)"
+                     :class="{ active: settings.background === 1 }">
+                </div>
+                <div class="box box-background--paper" @click="setBackground(2)"
+                     :class="{ active: settings.background === 2 }">
+                </div>
+                <div class="box box-background--color" @click="setBackground(3)"
+                     :class="{ active: settings.background === 3 }">
+                </div>
             </div>
         </div>
 
-        <div class="boxes-wrapper">
-            <div class="box box-background--sky">
-            </div>
-            <div class="box box-background--sky active">
-            </div>
-            <div class="box box-background--sky">
-            </div>
+        <div class="container bottom">
+            <button @click="switchSound(!settings.sound)" :class="{muted: settings.sound}"
+                    class="button sound small"></button>
         </div>
     </div>
 </template>
@@ -26,81 +40,42 @@
     // mixins
     import SlideMixin from '../mixins/SlideMixin.js';
     import SlidesEnumMixin from '../mixins/SlidesEnumMixin.js';
+    import SoundMixin from '../mixins/SoundMixin.js';
 
     export default {
-        mixins: [SlideMixin, SlidesEnumMixin],
+        mixins: [SlideMixin, SlidesEnumMixin, SoundMixin],
 
         props: ['settings'],
 
         methods: {
             setSimpleMode(simpleMode) {
                 this.$emit('setSimpleModeEvent', simpleMode);
+            },
+
+            setBackground(index) {
+                this.$emit('setBackgroundEvent', index);
+            },
+
+            setCardBack(index) {
+                this.$emit('setCardBackEvent', index);
             }
         }
     };
 </script>
 
 <style lang="scss">
-    .active {
-        background: red;
-    }
-
-    .boxes-wrapper {
-        display:flex;
-        flex-flow: row;
-        margin: 3rem 0;
-    }
-
     .simple-mode {
-        margin-top: 6rem;
         border: 1rem solid white;
         border-radius: 3rem;
         font-size: 3rem;
         padding: 2rem 3.5rem;
-        background: rgba(#fff, 0.5);
+        color: white;
+        box-shadow: 5px 5px 15px 0px rgba(133, 133, 133, 1);
 
-        &.active {
-            border-color: #4993FF;
-        }
-
-        &:hover {
-            cursor: pointer;
-        }
-    }
-
-    .box {
-        width: 15rem;
-        height: 15rem;
-
-        background: red;
-        border: 1rem solid white;
-        border-radius: 3rem;
-        margin-right: 3rem;
-        filter: grayscale(100%);
-        transition: all 0.5s;
-
-        &.active {
-            border-color: #4993FF;
-            filter: none;
-        }
-
-        &:last-child {
-            margin-right: 0;
-        }
+        transition: background-color 1s, background-size 0.2s;
 
         &:hover {
             cursor: pointer;
-            filter: none;
-        }
-
-        &-background--sky {
-            background: url("../assets/background-sky.jpg");
-            background-size: cover;
-        }
-
-        &-background--card {
-            background: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/102308/card_backside.jpg");
-            background-size: cover;
         }
     }
 </style>

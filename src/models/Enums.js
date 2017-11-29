@@ -7,6 +7,12 @@ export const SlidesEnum = {
     GAME_MODE: 5
 };
 
+export const CardTypes = {
+    ANIMALS: 0,
+    BUILDINGS: 1,
+    VEHICLES: 2
+};
+
 // const GamePlayEnum = {
 //     SINGLE: 0,
 //     MULTI: 1

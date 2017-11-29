@@ -1,4 +1,4 @@
-import SlidesEnum from '../models/Enums.js';
+import {SlidesEnum} from '../models/Enums.js';
 
 export default {
     beforeCreate() {

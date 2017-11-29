@@ -21,41 +21,96 @@
                 <button @click="resetGame()" class="newGame">New game</button>
             </div>
         </div>
+
+        <div class="container bottom">
+            <button @click="switchSound(!settings.sound)" :class="{muted: settings.sound}" class="button sound small"></button>
+        </div>
     </div>
 </template>
 
 <script>
     /* eslint-disable no-return-assign */
-
     // mixins
     import SlideMixin from '../mixins/SlideMixin.js';
     import SlidesEnumMixin from '../mixins/SlidesEnumMixin.js';
     import _ from 'lodash';
     import moment from 'moment';
+    import SoundMixin from '../mixins/SoundMixin.js';
+    import CardTypes from '../mixins/CardTypesMixin.js';
 
-    let CardTypes = [
-        {name: 'vue', image: 'https://vuejs.org/images/logo.png'},
-        {name: 'express', image: 'https://coligo.io/images/express.svg'},
-        {
-            name: 'mongo',
-            image: 'https://upload.wikimedia.org/wikipedia/en/thumb/4/45/MongoDB-Logo.svg/527px-MongoDB-Logo.svg.png'
-        },
-        {name: 'nodejs', image: 'https://worldvectorlogo.com/logos/nodejs-icon.svg'},
-        {
-            name: 'webpack',
-            image: 'https://camo.githubusercontent.com/66747a6e05a799aec9c6e04a3e721ca567748e8b/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f313336353838312f313931383337332f32653035373166612d376462632d313165332d383436352d3839356632393164343366652e706e67'
-        },
-        {name: 'babel', image: 'https://babeljs.io/images/logo.svg'},
-        {name: 'jade', image: 'http://jade-lang.com/style/jade-logo-header.svg'}
+    // animals
+    import bull from '../assets/pexeso/animals/bull.svg';
+    import chick from '../assets/pexeso/animals/chick.svg';
+    import crab from '../assets/pexeso/animals/crab.svg';
+    import fox from '../assets/pexeso/animals/fox.svg';
+    import hedgehog from '../assets/pexeso/animals/hedgehog.svg';
+    import pig from '../assets/pexeso/animals/pig.svg';
+    import tiger from '../assets/pexeso/animals/tiger.svg';
+    import zebra from '../assets/pexeso/animals/zebra.svg';
+
+    // vehicles
+    import aeroplane from '../assets/pexeso/vehicles/aeroplane.svg';
+    import ambulance from '../assets/pexeso/vehicles/ambulance.svg';
+    import bicycle from '../assets/pexeso/vehicles/bicycle.svg';
+    import bus from '../assets/pexeso/vehicles/bus.svg';
+    import car from '../assets/pexeso/vehicles/car.svg';
+    import cab from '../assets/pexeso/vehicles/cab.svg';
+    import helicopter from '../assets/pexeso/vehicles/helicopter.svg';
+    import ship from '../assets/pexeso/vehicles/ship.svg';
+
+    // buildings
+    import building1 from '../assets/pexeso/buildings/building1.svg';
+    import building2 from '../assets/pexeso/buildings/building2.svg';
+    import building3 from '../assets/pexeso/buildings/building3.svg';
+    import building4 from '../assets/pexeso/buildings/building4.svg';
+    import building5 from '../assets/pexeso/buildings/building5.svg';
+    import building6 from '../assets/pexeso/buildings/building6.svg';
+    import building7 from '../assets/pexeso/buildings/building7.svg';
+    import building8 from '../assets/pexeso/buildings/building8.svg';
+
+    let Cards = [];
+    let animals = [
+        {name: 'bull', image: bull},
+        {name: 'chick', image: chick},
+        {name: 'crab', image: crab},
+        {name: 'fox', image: fox},
+        {name: 'hedgehog', image: hedgehog},
+        {name: 'pig', image: pig},
+        {name: 'tiger', image: tiger},
+        {name: 'zebra', image: zebra}
+    ];
+
+    let vehicles = [
+        {name: 'aeroplane', image: aeroplane},
+        {name: 'ambulance', image: ambulance},
+        {name: 'bicycle', image: bicycle},
+        {name: 'bus', image: bus},
+        {name: 'car', image: car},
+        {name: 'cab', image: cab},
+        {name: 'helicopter', image: helicopter},
+        {name: 'ship', image: ship}
+    ];
+
+    let buildings = [
+        {name: 'building1', image: building1},
+        {name: 'building2', image: building2},
+        {name: 'building3', image: building3},
+        {name: 'building4', image: building4},
+        {name: 'building5', image: building5},
+        {name: 'building6', image: building6},
+        {name: 'building7', image: building7},
+        {name: 'building8', image: building8}
     ];
 
     let shuffleCards = () => {
-        let cards = [].concat(_.cloneDeep(CardTypes), _.cloneDeep(CardTypes));
+        let cards = [].concat(_.cloneDeep(Cards), _.cloneDeep(Cards));
         return _.shuffle(cards);
     };
 
     export default {
-        mixins: [SlideMixin, SlidesEnumMixin],
+        mixins: [SlideMixin, SlidesEnumMixin, SoundMixin, CardTypes],
+
+        props: ['settings', 'cardsType'],
 
         data() {
             return {
@@ -180,6 +235,13 @@
         },
 
         created() {
+            if (this.cardsType === this.CardTypes.ANIMALS) {
+                Cards = animals;
+            } else if (this.cardsType === this.CardTypes.BUILDINGS) {
+                Cards = buildings;
+            } else if (this.cardsType === this.CardTypes.VEHICLES) {
+                Cards = vehicles;
+            }
             this.resetGame();
         }
     };
@@ -206,6 +268,13 @@
     }
 
     .cards {
+        display: flex;
+        justify-content: flex-start;
+        flex-flow: column wrap;
+        align-content: center;
+        height: 100%;
+        margin: 5% 15%;
+
         .card {
             position: relative;
             display: inline-block;
@@ -228,10 +297,11 @@
                 transform: translateZ(0);
                 transition: transform 0.6s;
                 transform-style: preserve-3d;
+                border: 0.5rem solid white;
+                box-shadow: 5px 5px 15px 0px rgba(133,133,133,1);
             }
 
             .back {
-                background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/102308/card_backside.jpg");
                 background-size: 90%;
                 background-position: center;
                 background-repeat: no-repeat;
@@ -269,49 +339,49 @@
         right: 0;
         top: 0;
         bottom: 0;
-    }
 
-    .splash .overlay {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.6);
-    }
+        .overlay {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+        }
 
-    .splash .content {
-        position: absolute;
-        left: 0;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        width: 400px;
-        height: 200px;
-        margin: auto;
-        text-align: center;
-        background-color: rgba(51, 51, 51, 0.9);
-        border-radius: 10px;
-        box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
-        padding: 1em;
-    }
+        .content {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 400px;
+            height: 200px;
+            margin: auto;
+            text-align: center;
+            background-color: rgba(51, 51, 51, 0.9);
+            border-radius: 10px;
+            box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
+            padding: 1em;
+        }
 
-    .splash .content .title {
-        font-size: 1.8em;
-        padding: 0.5em;
-    }
+        .content .title {
+            font-size: 1.8em;
+            padding: 0.5em;
+        }
 
-    .splash .content .score {
-        padding: 0.5em;
-    }
+        .content .score {
+            padding: 0.5em;
+        }
 
-    .splash .content button {
-        margin-top: 1.0em;
-        background-color: #444;
-        padding: 5px 20px;
-        border-radius: 4px;
-        border: 1px solid #555;
-        color: White;
-        font-size: 1.4em;
+        .content button {
+            margin-top: 1.0em;
+            background-color: #444;
+            padding: 5px 20px;
+            border-radius: 4px;
+            border: 1px solid #555;
+            color: White;
+            font-size: 1.4em;
+        }
     }
 </style>
