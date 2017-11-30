@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container center">
-            <h1>GAME MODE</h1>
+            <h1 class="mode-header">MODE</h1>
             <button @click="changeSlideEvent(SlidesEnum.MAIN)" class="button back"></button>
 
             <div class="boxes-wrapper">
@@ -11,9 +11,9 @@
                 </div>
                 <div class="box box-background--calculator inactive">
                 </div>
-            </div>
+            </div><br><br>
 
-            <h1>Cards</h1>
+            <h1 class="mode-header">CARDS</h1>
             <div class="boxes-wrapper">
                 <div class="box box-background--animals" @click="startGame(CardTypes.ANIMALS)">
                 </div>
@@ -53,6 +53,10 @@
 </script>
 
 <style lang="scss">
+    .mode-header {
+        font-size: 2.5rem;
+    }
+
     .box {
         &-background--animals {
             background-image: url('../assets/pexeso/animals/koala.svg');

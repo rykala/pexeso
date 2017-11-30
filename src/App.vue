@@ -18,6 +18,7 @@
         <stats-slide class="slide" v-if="slideView === SlidesEnum.STATS"
                      @changeSlideEvent="changeSlide"
                      @switchSoundEvent="switchSound"
+                     :statsData="statsData"
                      :settings="settings"></stats-slide>
 
         <game-mode-slide class="slide" v-if="slideView === SlidesEnum.GAME_MODE"
@@ -41,14 +42,17 @@
     import GameSlide from './slides/GameSlide';
     import GameModeSlide from './slides/GameModeSlide';
     import StatsSlide from './slides/StatsSlide';
+    import ScrollBar from 'vue2-scrollbar';
 
     // mixins
-    import SlidesEnumMixin from './mixins/SlidesEnumMixin.js';
-    import CardTypesMixin from './mixins/CardTypesMixin.js';
+    import SlidesEnumMixin from './mixins/SlidesEnumMixin';
+    import CardTypesMixin from './mixins/CardTypesMixin';
+
+    import {StatsData} from './models/StatsData';
 
     export default {
         name: 'app',
-        components: {MainSlide, SettingsSlide, GameSlide, GameModeSlide, StatsSlide},
+        components: {MainSlide, SettingsSlide, GameSlide, GameModeSlide, StatsSlide, ScrollBar},
         mixins: [SlidesEnumMixin, CardTypesMixin],
 
         data() {
@@ -61,7 +65,8 @@
                     background: 1,
                     cardBack: 1
                 },
-                showHelp: false
+                showHelp: false,
+                statsData: StatsData
             };
         },
 
@@ -116,12 +121,14 @@
 </script>
 
 <style lang="scss">
-    $primary: #7FCDFF;
+    * {
+        box-sizing: border-box;
+    }
 
     html {
         height: 100%;
         font-size: 10px;
-        font-family: "Droid Sans Mono", serif;
+        font-family: "Roboto", "Droid Sans Mono", monospace;
     }
 
     body {
@@ -174,10 +181,6 @@
         &.cardBack1 {
             background-color: #9370DB;
 
-            .header {
-                color: white;
-            }
-
             .card .back {
                 background-color: rgba(#9370DB, 1);
             }
@@ -200,6 +203,16 @@
 
             .active {
                 border-color: #9370DB;
+            }
+
+            .table {
+                .head {
+                    background: #9370DB;
+                }
+
+                .row.even {
+                    background-color: rgba(#9370DB, 0.2);
+                }
             }
         }
 
@@ -229,6 +242,17 @@
             .active {
                 border-color: #5ACD59;
             }
+
+            .table {
+                .head {
+                    color: white;
+                    background: #5ACD59;
+                }
+
+                .row.even {
+                    background-color: rgba(#5ACD59, 0.2);
+                }
+            }
         }
 
         &.cardBack3 {
@@ -256,6 +280,17 @@
 
             .active {
                 border-color: #1E90FF;
+            }
+
+            .table {
+                .head {
+                    color: white;
+                    background: #1E90FF;
+                }
+
+                .row.even {
+                    background-color: rgba(#1E90FF, 0.2);
+                }
             }
         }
 
@@ -389,15 +424,97 @@
                 margin: auto auto;
             }
 
+            &.top {
+                width: 100%;
+                left: 0;
+                top: 0;
+                text-align: center;
+            }
+
             &.bottom {
                 display: block;
                 position: absolute;
-                width: 100%;
-                margin-top: auto;
                 left: 0;
                 bottom: 0;
             }
+
+            &-left-top {
+                display: block;
+                position: absolute;
+                left: 0;
+                top: 0;
+                z-index: 3;
+            }
+
+            &.left {
+                align-self: flex-start;
+                flex-flow: row wrap;
+            }
         }
     }
+
+    .vue-scrollbar-transition, .vue-scrollbar__scrollbar-vertical, .vue-scrollbar__scrollbar-horizontal {
+        transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -webkit-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+    }
+
+    .vue-scrollbar-transition--scrollbar {
+        transition: opacity 0.5s linear;
+        -moz-transition: opacity 0.5s linear;
+        -webkit-transition: opacity 0.5s linear;
+        -o-transition: opacity 0.5s linear;
+    }
+
+    .vue-scrollbar__wrapper {
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        background: white;
+    }
+
+    .vue-scrollbar__wrapper:hover .vue-scrollbar__scrollbar-vertical, .vue-scrollbar__wrapper:hover .vue-scrollbar__scrollbar-horizontal {
+        opacity: 1;
+    }
+
+    .vue-scrollbar__scrollbar-vertical, .vue-scrollbar__scrollbar-horizontal {
+        opacity: 0.5;
+        position: absolute;
+        background: transparent;
+    }
+
+    .vue-scrollbar__scrollbar-vertical:hover, .vue-scrollbar__scrollbar-horizontal:hover {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .vue-scrollbar__scrollbar-vertical .scrollbar, .vue-scrollbar__scrollbar-horizontal .scrollbar {
+        position: relative;
+        background: rgba(0, 0, 0, 0.5);
+        cursor: default;
+    }
+
+    .vue-scrollbar__scrollbar-vertical {
+        width: 10px;
+        height: 100%;
+        top: 0;
+        right: 0;
+    }
+
+    .vue-scrollbar__scrollbar-vertical .scrollbar {
+        width: 10px;
+    }
+
+    .vue-scrollbar__scrollbar-horizontal {
+        height: 10px;
+        width: 100%;
+        bottom: 0;
+        right: 0;
+    }
+
+    .vue-scrollbar__scrollbar-horizontal .scrollbar {
+        height: 10px;
+    }
+
 
 </style>

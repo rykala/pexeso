@@ -23,9 +23,9 @@
 
 
         <div class="container bottom">
-            <button @click="changeSlideEvent(SlidesEnum.SETTINGS)" class="button settings small"></button>
             <button @click="switchSound(!settings.sound)" :class="{muted: settings.sound}"
-                    class="button sound small"></button>
+                class="button sound small"></button>
+            <button @click="changeSlideEvent(SlidesEnum.SETTINGS)" class="button settings small"></button>
         </div>
 
         <div class="help-popup" :class="{hidden: !showHelp}">

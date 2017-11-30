@@ -1,10 +1,19 @@
 <template>
     <div>
-        <button @click="changeSlideEvent(SlidesEnum.MAIN)">Vzdat hru</button>
+        <div class="container-left-top">
+            <button class="button end small" @click="changeSlideEvent(SlidesEnum.MAIN)"></button>
+            <button class="button restart small" @click="resetGame()"></button>
+        </div>
 
-        <div class="info">
-            <div><span class="label">Time:</span><span class="value">{{time}} </span></div>
-            <div><span class="label">Turns:</span><span class="value">{{turns}} </span></div>
+        <div class="container top">
+            <div class="game-info">
+                <div class="game-info--text">
+                    <span class="text-label">Time:</span> {{time}}
+                </div>
+                <div class="game-info--text">
+                    <span class="text-label">Turns:</span> {{turns}}
+                </div>
+            </div>
         </div>
         <div class="cards">
             <div v-for="card in cards" :class="{ flipped: card.flipped, found: card.found }" @click="flipCard(card)"
@@ -18,12 +27,19 @@
             <div class="content">
                 <div class="title">You won!</div>
                 <div class="score">Score: {{ score }}</div>
+                <div class="save-score">
+                    <label>
+                        Save score
+                        <input type="text">
+                    </label>
+                </div>
                 <button @click="resetGame()" class="newGame">New game</button>
             </div>
         </div>
 
         <div class="container bottom">
-            <button @click="switchSound(!settings.sound)" :class="{muted: settings.sound}" class="button sound small"></button>
+            <button @click="switchSound(!settings.sound)" :class="{muted: settings.sound}"
+                    class="button sound small"></button>
         </div>
     </div>
 </template>
@@ -121,7 +137,7 @@
                 turns: 0,
                 flipBackTimer: null,
                 timer: null,
-                time: '--:--',
+                time: '00:00',
                 score: 0
             };
         },
@@ -183,14 +199,16 @@
             finishGame() {
                 this.started = false;
                 clearInterval(this.timer);
-                let score = 1000 - (moment().diff(this.startTime, 'seconds') - CardTypes.length * 5) * 3 -
-                    (this.turns - CardTypes.length) * 5;
+                let score = 1000 - (moment().diff(this.startTime, 'seconds') - Cards.length * 5) * 3 -
+                    (this.turns - Cards.length) * 5;
                 this.score = Math.max(score, 0);
                 this.showSplash = true;
             },
 
             flipCard: function(card) {
-                if (card.found || card.flipped) return;
+                if (card.found || card.flipped) {
+                    return;
+                }
 
                 if (!this.started) {
                     this.startGame();
@@ -247,24 +265,41 @@
     };
 </script>
 
-<style scoped lang="scss">
-    .info {
-        text-align: center;
-        padding-bottom: 1em;
-        border-bottom: 1px solid #555;
+<style lang="scss">
+    .game-info {
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        align-self: center;
+        flex-flow: row wrap;
+        height: 10rem;
+
+        &--text {
+            display: inline;
+            margin-right: 5rem;
+            font-weight: bold;
+
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+
+        .text-label {
+            font-size: 1.8rem;
+            font-weight: normal;
+        }
     }
 
-    .info > div {
-        display: inline-block;
-        width: 200px;
-    }
+    .button {
+        &.restart {
+            background-image: url('../assets/icons/reset.svg');
+        }
 
-    .info > div .label {
-        margin-right: 5px;
-    }
-
-    .info > div .value {
-        font-weight: bold;
+        &.end {
+            background-image: url('../assets/icons/close-black.svg');
+        }
     }
 
     .cards {
@@ -272,8 +307,8 @@
         justify-content: flex-start;
         flex-flow: column wrap;
         align-content: center;
-        height: 100%;
-        margin: 5% 15%;
+        height: 50rem;
+        margin: auto;
 
         .card {
             position: relative;
@@ -298,7 +333,7 @@
                 transition: transform 0.6s;
                 transform-style: preserve-3d;
                 border: 0.5rem solid white;
-                box-shadow: 5px 5px 15px 0px rgba(133,133,133,1);
+                box-shadow: 5px 5px 15px 0px rgba(133, 133, 133, 1);
             }
 
             .back {
@@ -363,11 +398,12 @@
             border-radius: 10px;
             box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
             padding: 1em;
+            color: white;
         }
 
         .content .title {
-            font-size: 1.8em;
-            padding: 0.5em;
+            font-size: 3rem;
+            padding: 0.5rem;
         }
 
         .content .score {

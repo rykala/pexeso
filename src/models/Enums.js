@@ -17,5 +17,3 @@ export const CardTypes = {
 //     SINGLE: 0,
 //     MULTI: 1
 // }
-
-export default SlidesEnum;
