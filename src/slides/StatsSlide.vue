@@ -25,7 +25,7 @@
                     <div>
                         <div class="body" v-if="mode === 'single'" v-for="(player, index) in statsData.singlePlayer">
                             <div class="row" :class="{even: index % 2 === 1}">
-                                <div class="rank">{{player.rank}}</div>
+                                <div class="rank">{{index + 1}}</div>
                                 <div class="name">{{player.name}}</div>
                                 <div class="score">{{player.score}}</div>
                             </div>
@@ -33,7 +33,7 @@
 
                         <div class="body" v-if="mode === 'multi'" v-for="(player, index) in statsData.multiPlayer">
                             <div class="row" :class="{even: index % 2 === 1}">
-                                <div class="rank">{{player.rank}}</div>
+                                <div class="rank">{{index + 1}}</div>
                                 <div class="name">{{player.name}}</div>
                                 <div class="score">{{player.score}}</div>
                             </div>

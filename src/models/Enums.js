@@ -13,7 +13,7 @@ export const CardTypes = {
     VEHICLES: 2
 };
 
-// const GamePlayEnum = {
-//     SINGLE: 0,
-//     MULTI: 1
-// }
+export const GameModes = {
+    SINGLE: 0,
+    MULTI: 1
+};

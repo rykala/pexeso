@@ -1,8 +1,11 @@
 <template>
     <div>
         <div class="container-left-top">
-            <button class="button end small" @click="changeSlideEvent(SlidesEnum.MAIN)"></button>
             <button class="button restart small" @click="resetGame()"></button>
+        </div>
+
+        <div class="container-right-top">
+            <button class="button end small" @click="changeSlideEvent(SlidesEnum.MAIN)"></button>
         </div>
 
         <div class="container top">
@@ -30,10 +33,11 @@
                 <div class="save-score">
                     <label>
                         Save score
-                        <input type="text">
+                        <input type="text" v-model="username">
                     </label>
                 </div>
-                <button @click="resetGame()" class="newGame">New game</button>
+                <button v-if="!saveScoreFlag" @click="saveScore()" class="newGame">Save score</button>
+                <div v-if="saveScoreFlag">Score saved!</div>
             </div>
         </div>
 
@@ -126,7 +130,7 @@
     export default {
         mixins: [SlideMixin, SlidesEnumMixin, SoundMixin, CardTypes],
 
-        props: ['settings', 'cardsType'],
+        props: ['settings', 'cardsType', 'mode'],
 
         data() {
             return {
@@ -138,11 +142,18 @@
                 flipBackTimer: null,
                 timer: null,
                 time: '00:00',
-                score: 0
+                score: 0,
+                username: 'User1',
+                saveScoreFlag: false
             };
         },
 
         methods: {
+            saveScore() {
+                this.$emit('saveScoreEvent', this.username, this.score);
+                this.saveScoreFlag = true;
+            },
+
             resetGame() {
                 this.showSplash = false;
                 let cards = shuffleCards();

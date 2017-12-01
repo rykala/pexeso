@@ -28,7 +28,7 @@
                          :settings="settings"></game-mode-slide>
 
         <game-slide class="slide" v-if="slideView === SlidesEnum.GAME" @switchSoundEvent="switchSound"
-                    @changeSlideEvent="changeSlide" :cardsType="cardsType"
+                    @changeSlideEvent="changeSlide" @saveScoreEvent="saveScore" :cardsType="cardsType"
                     :settings="settings"></game-slide>
     </div>
 </template>
@@ -63,7 +63,8 @@
                     simpleMode: false,
                     sound: true,
                     background: 1,
-                    cardBack: 1
+                    cardBack: 1,
+                    mode: this.GameModes.SINGLE
                 },
                 showHelp: false,
                 statsData: StatsData
@@ -89,6 +90,30 @@
         },
 
         methods: {
+            saveScore(username, score) {
+                let user = {name: username, score: score};
+
+                if (this.settings.mode === this.GameModes.SINGLE) {
+                    this.statsData.singlePlayer.push(user);
+                    this.statsData.singlePlayer.sort(this.compareScore);
+                } else if (this.settings.mode === this.GameModes.MULTI) {
+                    this.statsData.multiPlayer.push(user);
+                    this.statsData.multiPlayer.sort(this.compareScore);
+                }
+            },
+
+            compareScore(a, b) {
+                if (a.score > b.score) {
+                    return -1;
+                }
+
+                if (a.score < b.score) {
+                    return 1;
+                }
+
+                return 0;
+            },
+
             changeSlide(slideIndex) {
                 this.slideView = slideIndex;
             },
@@ -438,10 +463,25 @@
                 bottom: 0;
             }
 
+            &-bottom-right {
+                display: block;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+            }
+
             &-left-top {
                 display: block;
                 position: absolute;
                 left: 0;
+                top: 0;
+                z-index: 3;
+            }
+
+            &-right-top {
+                display: block;
+                position: absolute;
+                right: 0;
                 top: 0;
                 z-index: 3;
             }

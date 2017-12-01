@@ -15,7 +15,7 @@
             </div>
 
             <div class="container second-row">
-                <button class="button help small" @click="showHelpEvent(true)"></button>
+                <button @click="changeSlideEvent(SlidesEnum.SETTINGS)" class="button settings small"></button>
                 <button v-if="!settings.simpleMode" @click="changeSlideEvent(SlidesEnum.STATS)"
                         class="button stats small"></button>
             </div>
@@ -24,9 +24,13 @@
 
         <div class="container bottom">
             <button @click="switchSound(!settings.sound)" :class="{muted: settings.sound}"
-                class="button sound small"></button>
-            <button @click="changeSlideEvent(SlidesEnum.SETTINGS)" class="button settings small"></button>
+                    class="button sound small"></button>
         </div>
+
+        <div class="container-bottom-right">
+            <button class="button help small" @click="showHelpEvent(true)"></button>
+        </div>
+
 
         <div class="help-popup" :class="{hidden: !showHelp}">
             <div @click="showHelpEvent(false)" class="close"></div>
@@ -121,7 +125,7 @@
         bottom: 0;
         left: 0;
         right: 0;
-        overflow:hidden;
+        overflow: hidden;
 
         .text {
             color: white;
