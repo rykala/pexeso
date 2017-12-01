@@ -8,9 +8,9 @@
 
             <!--NORMAL-->
             <div class="container game-buttons">
-                <div v-if="!settings.simpleMode" @click="changeSlideEvent(SlidesEnum.GAME_MODE)"
+                <div v-if="!settings.simpleMode" @click="chooseMode(SlidesEnum.GAME_MODE, GameModes.SINGLE)"
                      class="button single-player"></div>
-                <div v-if="!settings.simpleMode" @click="changeSlideEvent(SlidesEnum.GAME_MODE)"
+                <div v-if="!settings.simpleMode" @click="chooseMode(SlidesEnum.GAME_MODE, GameModes.MULTI)"
                      class="button multi-player"></div>
             </div>
 
@@ -80,6 +80,11 @@
         methods: {
             showHelpEvent(bool) {
                 this.$emit('showHelpEvent', bool);
+            },
+
+            chooseMode(slide, mode) {
+                this.$emit('setModeEvent', mode);
+                this.changeSlideEvent(slide);
             }
         }
     };

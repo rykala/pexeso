@@ -4,6 +4,7 @@
                     @changeSlideEvent="changeSlide"
                     @switchSoundEvent="switchSound"
                     @showHelpEvent="showHelpPopup"
+                    @setModeEvent="setMode"
                     :settings="settings"
                     :showHelp="showHelp"></main-slide>
 
@@ -90,6 +91,10 @@
         },
 
         methods: {
+            setMode(mode) {
+                this.settings.mode = mode;
+            },
+
             saveScore(username, score) {
                 let user = {name: username, score: score};
 

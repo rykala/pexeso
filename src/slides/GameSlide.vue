@@ -8,16 +8,41 @@
             <button class="button end small" @click="changeSlideEvent(SlidesEnum.MAIN)"></button>
         </div>
 
-        <div class="container top">
+        <div v-if="settings.mode === GameModes.SINGLE" class="container top">
             <div class="game-info">
-                <div class="game-info--text">
-                    <span class="text-label">Time:</span> {{time}}
-                </div>
                 <div class="game-info--text">
                     <span class="text-label">Turns:</span> {{turns}}
                 </div>
+                <div class="game-info--text">
+                    <span class="text-label">Time:</span> {{time}}
+                </div>
             </div>
         </div>
+
+        <div v-if="settings.mode === GameModes.MULTI" class="container top">
+            <div class="game-info">
+                <div class="game-info--text">
+                    <span class="text-label">Your pairs:</span> {{userPairs}}
+                </div>
+
+                <div v-show="turn === 0" class="game-info--text-turn">
+                    YOUR TURN!
+                </div>
+                <div v-show="turn === 1" class="game-info--text-turn">
+                    OPPONENT'S TURN!
+                </div>
+
+                <div class="game-info--text">
+                    <span class="text-label">Time:</span> {{time}}
+                </div>
+
+                <div class="game-info--text">
+                    <span class="text-label">Opponents pairs:</span> {{opponentsPairs}}
+                </div>
+            </div>
+        </div>
+
+
         <div class="cards">
             <div v-for="card in cards" :class="{ flipped: card.flipped, found: card.found }" @click="flipCard(card)"
                  class="card">
@@ -27,17 +52,30 @@
         </div>
         <div v-if="showSplash" class="splash">
             <div class="overlay"></div>
-            <div class="content">
+            <div v-if="settings.mode.SINGLE || userPairs >= opponentsPairs" class="content">
                 <div class="title">You won!</div>
                 <div class="score">Score: {{ score }}</div>
                 <div class="save-score">
                     <label>
-                        Save score
+                        Nick:
                         <input type="text" v-model="username">
                     </label>
                 </div>
                 <button v-if="!saveScoreFlag" @click="saveScore()" class="newGame">Save score</button>
-                <div v-if="saveScoreFlag">Score saved!</div>
+                <div v-if="saveScoreFlag"><br>Score saved!</div>
+            </div>
+
+            <div v-if="settings.mode.MULTI && userPairs < opponentsPairs" class="content">
+                <div class="title">You won!</div>
+                <div class="score">Score: {{ score }}</div>
+                <div class="save-score">
+                    <label>
+                        Nick:
+                        <input type="text" v-model="username">
+                    </label>
+                </div>
+                <button v-if="!saveScoreFlag" @click="saveScore()" class="newGame">Save score</button>
+                <div v-if="saveScoreFlag"><br>Score saved!</div>
             </div>
         </div>
 
@@ -144,7 +182,10 @@
                 time: '00:00',
                 score: 0,
                 username: 'User1',
-                saveScoreFlag: false
+                saveScoreFlag: false,
+                userPairs: 0,
+                opponentsPairs: 0,
+                turn: 0
             };
         },
 
@@ -234,6 +275,8 @@
 
                     if (this.sameFlippedCard()) {
                         // Match!
+                        this.turn === 0 ? this.userPairs++ : this.opponentsPairs++;
+
                         this.flipBackTimer = setTimeout(() => {
                             this.clearFlipBackTimer();
                             this.setCardFounds();
@@ -248,6 +291,7 @@
                         this.flipBackTimer = setTimeout(() => {
                             this.clearFlipBackTimer();
                             this.clearFlips();
+                            this.turn === 0 ? this.turn = 1 : this.turn = 0;
                         }, 1000);
                     }
                 }
@@ -294,6 +338,13 @@
 
             &:last-child {
                 margin-right: 0;
+            }
+
+            &-turn {
+                font-size: 2.5rem;
+                font-weight: bold;
+                margin-right: 5rem;
+                width: 25rem;
             }
         }
 
@@ -410,6 +461,7 @@
             box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.8);
             padding: 1em;
             color: white;
+            font-size: 2rem;
         }
 
         .content .title {
@@ -421,14 +473,14 @@
             padding: 0.5em;
         }
 
-        .content button {
+        .newGame{
             margin-top: 1.0em;
             background-color: #444;
             padding: 5px 20px;
             border-radius: 4px;
             border: 1px solid #555;
             color: White;
-            font-size: 1.4em;
+            font-size: 1.5rem;
         }
     }
 </style>
