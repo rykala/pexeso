@@ -52,7 +52,7 @@
         </div>
         <div v-if="showSplash" class="splash">
             <div class="overlay"></div>
-            <div v-if="settings.mode.SINGLE || userPairs >= opponentsPairs" class="content">
+            <div v-if="settings.mode === GameModes.SINGLE || userPairs >= opponentsPairs" class="content">
                 <div class="title">You won!</div>
                 <div class="score">Score: {{ score }}</div>
                 <div class="save-score">
@@ -65,17 +65,9 @@
                 <div v-if="saveScoreFlag"><br>Score saved!</div>
             </div>
 
-            <div v-if="settings.mode.MULTI && userPairs < opponentsPairs" class="content">
-                <div class="title">You won!</div>
-                <div class="score">Score: {{ score }}</div>
-                <div class="save-score">
-                    <label>
-                        Nick:
-                        <input type="text" v-model="username">
-                    </label>
-                </div>
-                <button v-if="!saveScoreFlag" @click="saveScore()" class="newGame">Save score</button>
-                <div v-if="saveScoreFlag"><br>Score saved!</div>
+            <div v-if="settings.mode === GameModes.MULTI && userPairs < opponentsPairs" class="content">
+                <br><br>
+                <div class="title">You Lost!</div>
             </div>
         </div>
 
@@ -202,6 +194,9 @@
                 this.score = 0;
                 this.started = false;
                 this.startTime = 0;
+                this.turn = 0;
+                this.userPairs = 0;
+                this.opponentsPairs = 0;
 
                 _.each(cards, (card) => {
                     card.flipped = false;
